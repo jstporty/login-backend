@@ -24,16 +24,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     
-    // Apache POI for Excel file handling
-    implementation("org.apache.poi:poi:5.2.5")
-    implementation("org.apache.poi:poi-ooxml:5.2.5")
-    
-    // HTTP Client for API testing
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    
-    // Process execution for Puppeteer
-    implementation("org.zeroturnaround:zt-exec:1.12")
-    
     runtimeOnly("com.mysql:mysql-connector-j")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

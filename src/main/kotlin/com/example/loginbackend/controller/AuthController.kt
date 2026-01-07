@@ -36,8 +36,8 @@ class AuthController(
             println("✅ 로그인 성공: ${user.username}")
             ResponseEntity.ok(user)
         } else {
-            println("❌ 로그인 실패: Invalid credentials")
-            ResponseEntity.status(401).body(mapOf("message" to "Invalid credentials"))
+            println("❌ 로그인 실패: 잘못된 인증 정보")
+            ResponseEntity.status(401).body(mapOf("message" to "잘못된 인증 정보"))
         }
     }
 }

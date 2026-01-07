@@ -9,19 +9,12 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
-# 서버 설정
 server:
   port: 8080
 
-# 테스트 자동화 설정
-test:
-  automation:
-    input-file: /Users/mz02-horang/c드라이브/test_cases.xlsx
-    output-directory: /Users/mz02-horang/c드라이브
-    frontend-url: http://localhost:5173

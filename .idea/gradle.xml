@@ -6,7 +6,7 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$USER_HOME$/c드라이브/login-backend" />
+            <option value="$USER_HOME$/cdrive/login-backend" />
           </set>
         </option>
       </GradleProjectSettings>

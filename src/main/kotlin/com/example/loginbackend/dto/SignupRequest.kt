@@ -6,16 +6,16 @@ import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 
 data class SignupRequest(
-    @field:NotBlank(message = "Username is required")
-    @field:Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
-    @field:Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username can only contain letters and numbers")
+    @field:NotBlank(message = "사용자명은 필수입니다")
+    @field:Size(min = 3, max = 20, message = "사용자명은 3~20자여야 합니다")
+    @field:Pattern(regexp = "^[a-zA-Z0-9]+$", message = "사용자명은 영문과 숫자만 가능합니다")
     val username: String,
 
-    @field:NotBlank(message = "Password is required")
-    @field:Size(min = 8, max = 100, message = "Password must be at least 8 characters")
+    @field:NotBlank(message = "비밀번호는 필수입니다")
+    @field:Size(min = 8, max = 100, message = "비밀번호는 최소 8자 이상이어야 합니다")
     val password: String,
 
-    @field:NotBlank(message = "Email is required")
-    @field:Email(message = "Email must be valid")
+    @field:NotBlank(message = "이메일은 필수입니다")
+    @field:Email(message = "올바른 이메일 형식이 아닙니다")
     val email: String
 )

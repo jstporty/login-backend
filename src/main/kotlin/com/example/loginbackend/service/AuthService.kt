@@ -16,7 +16,7 @@ class AuthService(
     @Transactional
     fun register(request: SignupRequest): UserResponse {
         if (userRepository.existsByUsername(request.username)) {
-            throw IllegalArgumentException("Username already exists")
+            throw IllegalArgumentException("이미 존재하는 사용자명입니다")
         }
 
         val user = User(

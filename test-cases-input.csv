@@ -1,0 +1,11 @@
+TestType,Username,Password,Email,ExpectedStatus,ExpectedResult,Description
+REGISTER,testuser01,Password1234!,testuser01@example.com,200,SUCCESS,정상 회원가입 - 모든 조건 만족
+REGISTER,abc,Test12345678,abc@test.com,200,SUCCESS,username 최소길이(3자) 테스트
+REGISTER,user20chars12345678,MyPass1234,longuser@test.com,200,SUCCESS,username 최대길이(20자) 테스트
+REGISTER,validUser123,12345678,valid@mail.com,200,SUCCESS,password 최소길이(8자) 테스트
+REGISTER,numberUser999,SecurePass99!,num999@example.com,200,SUCCESS,username 숫자포함 테스트
+REGISTER,UPPERCASE123,UpperPass123,upper@test.com,200,SUCCESS,username 대문자 테스트
+LOGIN,testuser01,Password1234!,,200,SUCCESS,정상 로그인 - 가입된 계정
+LOGIN,abc,Test12345678,,200,SUCCESS,정상 로그인 - 짧은 username
+LOGIN,validUser123,12345678,,200,SUCCESS,정상 로그인 - 최소 password
+REGISTER,test-user,Password123!,invalid@test.com,400,FAIL,username 특수문자 포함으로 실패
