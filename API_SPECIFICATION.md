@@ -36,19 +36,34 @@ http://localhost:8080/api
 - HTTP 400 Bad Request - 입력 검증 실패
   ```json
   {
-    "message": "Validation failed",
+    "message": "유효성 검증 실패",
     "errors": {
-      "username": "Username must be between 3 and 20 characters",
-      "password": "Password must be at least 8 characters"
+      "username": "사용자명은 3~20자여야 합니다",
+      "password": "비밀번호는 최소 8자 이상이어야 합니다"
     }
   }
   ```
 - HTTP 400 Bad Request - 중복 사용자명
   ```json
   {
-    "message": "Username already exists"
+    "message": "이미 존재하는 사용자명입니다"
   }
   ```
+
+**유효성 검증 규칙**:
+- **username**: 
+  - 필수 (NotBlank)
+  - 3~20자
+  - 영문과 숫자만 허용
+  - 에러 메시지: "사용자명은 3~20자여야 합니다", "사용자명은 영문과 숫자만 가능합니다"
+- **email**: 
+  - 필수 (NotBlank)
+  - 올바른 이메일 형식
+  - 에러 메시지: "올바른 이메일 형식이 아닙니다"
+- **password**: 
+  - 필수 (NotBlank)
+  - 최소 8자 이상
+  - 에러 메시지: "비밀번호는 최소 8자 이상이어야 합니다"
 
 ---
 
@@ -78,9 +93,13 @@ http://localhost:8080/api
 - HTTP 401 Unauthorized - 잘못된 인증 정보
   ```json
   {
-    "message": "Invalid credentials"
+    "message": "잘못된 인증 정보"
   }
   ```
+
+**유효성 검증 규칙**:
+- **username**: 필수 (NotBlank)
+- **password**: 필수 (NotBlank)
 
 ---
 
@@ -111,6 +130,29 @@ http://localhost:8080/api
 
 ## 보안 정책
 
-1. **비밀번호 암호화**: BCrypt 해싱 알고리즘 사용
+1. **비밀번호 저장**: 평문 저장 (개발 환경 전용, 프로덕션에서는 BCrypt 사용 필요)
 2. **비밀번호 응답 제외**: API 응답에 비밀번호 절대 포함하지 않음
 3. **입력 검증**: Jakarta Validation 사용하여 서버 측 검증 수행
+4. **한국어 에러 메시지**: 모든 에러 메시지는 한국어로 반환
+5. **CORS 설정**: 개발 환경에서 모든 origin 허용 (`*`)
+
+## 에러 메시지 목록
+
+### 회원가입 관련
+- "사용자명은 필수입니다"
+- "사용자명은 3~20자여야 합니다"
+- "사용자명은 영문과 숫자만 가능합니다"
+- "비밀번호는 필수입니다"
+- "비밀번호는 최소 8자 이상이어야 합니다"
+- "이메일은 필수입니다"
+- "올바른 이메일 형식이 아닙니다"
+- "이미 존재하는 사용자명입니다"
+
+### 로그인 관련
+- "사용자명은 필수입니다"
+- "비밀번호는 필수입니다"
+- "잘못된 인증 정보"
+
+### 일반 에러
+- "유효성 검증 실패" (validation 에러 발생 시 기본 메시지)
+- "잘못된 요청" (IllegalArgumentException 발생 시 기본 메시지)
