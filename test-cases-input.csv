@@ -9,3 +9,5 @@ LOGIN,testuser01,Password1234!,,200,SUCCESS,정상 로그인 - 가입된 계정
 LOGIN,abc,Test12345678,,200,SUCCESS,정상 로그인 - 짧은 username
 LOGIN,validUser123,12345678,,200,SUCCESS,정상 로그인 - 최소 password
 REGISTER,test-user,Password123!,invalid@test.com,400,FAIL,username 특수문자 포함으로 실패
+
+

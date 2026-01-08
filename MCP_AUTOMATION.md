@@ -59,43 +59,23 @@ Cursor IDE의 MCP 설정은 다음 위치에 있습니다:
 File MCP는 다음 디렉토리 내에서만 파일에 접근 가능:
 - `/Users/mz02-horang/cdrive/login-backend`
 
-## 📁 자동화 스크립트
+## 📁 자동화 도구
 
-### 메인 스크립트: `browser_full_test_korean_v2.py`
+### 메인 도구: `project-tester` (Custom MCP Server)
 
-**유일하게 사용하는 자동화 테스트 스크립트입니다.**
+**파이썬 스크립트를 대체하여 사용하는 프로젝트 전용 테스트 도구입니다.**
 
-이 스크립트는:
-- File MCP로 CSV 읽기
-- API 직접 호출하여 테스트
-- 한국어 엑셀 리포트 생성 (이메일/비밀번호 포함)
+이 도구는:
+- `/Users/mz02-horang/cdrive/login-backend/mcp-servers/index.js`에 구현됨
+- CSV 읽기, API 호출, 결과 분석을 하나의 도구(`run_auth_test_suite`)로 처리
+- Cursor IDE 내에서 직접 호출 가능
 
-**다른 .py 파일들**은 개발 과정에서 만든 임시 버전들로 `backup_scripts/` 폴더에 백업되어 있습니다.
-
-```python
-import csv
-import requests
-import openpyxl
-from openpyxl.styles import Font, PatternFill, Alignment
-from datetime import datetime
-
-# 1. File MCP로 CSV 읽기
-with open('/Users/mz02-horang/cdrive/login-backend/test-cases-input.csv', 'r', encoding='utf-8') as f:
-    reader = csv.DictReader(f)
-    test_cases = list(reader)
-
-# 2. 각 테스트 케이스 실행
-for tc in test_cases:
-    # API 호출
-    resp = requests.post(f"{BASE_URL}/register", json={...})
-    
-    # 결과 수집
-    results.append({...})
-
-# 3. 엑셀 리포트 생성
-wb = openpyxl.Workbook()
-# ... 엑셀 포맷팅
-wb.save(output_file)
+```javascript
+// mcp.json 설정 예시
+"project-tester": {
+  "command": "node",
+  "args": ["/Users/mz02-horang/cdrive/login-backend/mcp-servers/index.js"]
+}
 ```
 
 ## 🔄 자동화 워크플로우
@@ -127,8 +107,8 @@ wb.save(output_file)
 ### CSV 파일 읽기
 
 ```python
-# File MCP를 통해 읽기
-with open('/Users/mz02-horang/cdrive/login-backend/test-cases-input.csv', 'r', encoding='utf-8') as f:
+# File MCP를 통해 원본 파일 직접 읽기
+with open('/Users/mz02-horang/cdrive/test-cases.csv', 'r', encoding='utf-8') as f:
     reader = csv.DictReader(f)
     test_cases = list(reader)
 
@@ -140,18 +120,29 @@ with open('/Users/mz02-horang/cdrive/login-backend/test-cases-input.csv', 'r', e
 # ]
 ```
 
+**파일 위치**:
+- 입력: `/Users/mz02-horang/cdrive/test-cases.csv` (원본)
+- 출력: `/Users/mz02-horang/cdrive/test_results_korean_*.xlsx` (결과)
+
 ### 파일 접근 제한
 
-✅ **허용**:
+File MCP는 허용된 디렉토리 내에서만 파일 접근이 가능하지만, 
+현재 설정으로는 `/Users/mz02-horang/cdrive/` 디렉토리의 파일들에 접근 가능합니다.
+
+✅ **허용** (원본 파일):
 ```python
-open('/Users/mz02-horang/cdrive/login-backend/test-cases-input.csv')
-open('/Users/mz02-horang/cdrive/login-backend/results.xlsx')
+open('/Users/mz02-horang/cdrive/test-cases.csv')  # 입력
+open('/Users/mz02-horang/cdrive/test_results_korean_*.xlsx')  # 출력
 ```
 
-❌ **차단**:
+✅ **허용** (백엔드 프로젝트 내):
 ```python
-open('/Users/mz02-horang/cdrive/test-cases.xlsx')  # 허용 디렉토리 밖
-open('/Users/mz02-horang/cdrive/login-frontend/config.json')  # 다른 프로젝트
+open('/Users/mz02-horang/cdrive/login-backend/browser_full_test_korean_v2.py')
+```
+
+❌ **차단** (다른 사용자 디렉토리):
+```python
+open('/Users/other-user/data.csv')  # 접근 불가
 ```
 
 ## 🌐 Browser MCP 활용
@@ -353,11 +344,11 @@ pip install openpyxl requests
 # 1. DB 초기화
 mysql -u root -proot -e "USE login_backend; TRUNCATE TABLE users;"
 
-# 2. 자동화 테스트 실행 (유일한 스크립트)
-python3 browser_full_test_korean_v2.py
+# 2. AI에게 테스트 실행 명령
+# 예: "프로젝트 테스터로 test-cases-input.csv 테스트 돌려줘"
 ```
 
-**참고**: `browser_full_test_korean_v2.py`가 유일한 자동화 스크립트입니다. 다른 .py 파일들은 백업용입니다.
+**참고**: 더 이상 파이썬 스크립트를 수동으로 실행할 필요가 없습니다. AI가 `project-tester` MCP 도구를 사용하여 모든 과정을 자동으로 처리합니다.
 
 ### 4. 결과 확인
 

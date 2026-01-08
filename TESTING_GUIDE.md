@@ -19,15 +19,19 @@
 ## 📁 테스트 관련 파일
 
 ```
-login-backend/
-├── test-cases-input.csv              # 테스트 케이스 정의
-├── browser_full_test_korean_v2.py    # 자동화 테스트 스크립트 (최신)
-└── test_results_korean_*.xlsx        # 테스트 결과 (자동 생성)
+/Users/mz02-horang/cdrive/
+├── test-cases-input.csv                   # 테스트 케이스 정의 (입력)
+└── test_results_korean_*.xlsx            # 테스트 결과 (필요 시 자동 생성)
+
+/Users/mz02-horang/cdrive/login-backend/
+└── mcp-servers/index.js                  # 프로젝트 전용 MCP 테스트 서버
 ```
 
 ## 🎯 테스트 케이스
 
-### 테스트 케이스 파일 구조 (`test-cases-input.csv`)
+### 테스트 케이스 파일 구조 (`test-cases.csv`)
+
+**파일 위치**: `/Users/mz02-horang/cdrive/test-cases.csv`
 
 ```csv
 TestType,Username,Password,Email,ExpectedStatus,ExpectedResult,Description
@@ -88,16 +92,16 @@ npm run dev
 # 1. 데이터베이스 초기화
 mysql -u root -proot -e "USE login_backend; TRUNCATE TABLE users;"
 
-# 2. 자동화 테스트 실행
-python3 browser_full_test_korean_v2.py
+# 2. AI에게 테스트 실행 요청
+# 예: "프로젝트 테스터 도구로 테스트 돌려줘"
 ```
 
 ### 실행 과정
 
-1. **File MCP**: CSV 파일에서 테스트 케이스 읽기
-2. **API 테스트**: 백엔드 API 직접 호출하여 테스트 실행
-3. **결과 수집**: 각 테스트의 성공/실패 및 에러 메시지 기록
-4. **엑셀 생성**: 한국어 테스트 리포트 자동 생성
+1. **MCP 호출**: AI가 `project-tester` 서버의 `run_auth_test_suite` 도구 호출
+2. **CSV 읽기**: MCP 서버가 `test-cases-input.csv` 파일 파싱
+3. **API 테스트**: 백엔드 API 직접 호출 및 응답 분석
+4. **결과 보고**: AI가 테스트 결과를 마크다운 표로 정리하여 출력
 
 ## 📊 테스트 결과
 
@@ -240,11 +244,11 @@ curl http://localhost:5173
 pip install openpyxl
 ```
 
-## 📝 테스트 케이스 추가하기
+### 테스트 케이스 추가하기
 
 ### 1. CSV 파일 수정
 
-`test-cases-input.csv`에 새로운 행 추가:
+원본 파일 `/Users/mz02-horang/cdrive/test-cases.csv`에 새로운 행 추가:
 
 ```csv
 REGISTER,newuser,NewPass123,new@test.com,200,SUCCESS,새로운 테스트 케이스
